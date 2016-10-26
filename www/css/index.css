@@ -43,6 +43,19 @@ body {
     padding:0px;
     text-transform:uppercase;
     width:100%;
+	
+	/* disable text selection - 10/24/2016 - Max */
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-user-select: auto !important;
+	-khtml-user-select: auto !important;
+	-moz-user-select: auto !important;
+	-ms-user-select: auto !important;
+	user-select: auto !important;
+	
 }
 
 /* Portrait layout (default) */
@@ -113,3 +126,5 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+

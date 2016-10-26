@@ -1,5 +1,24 @@
 <!DOCTYPE html>
 
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="icon/icon.png" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="icon/icon.png">
+    <link rel="apple-touch-icon-precomposed" href="icon/icon.png">
+    <!-- Path to Framework7 Library CSS-->
+    <link href="css/stylesheets/framework7.min.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
+    <link href="css/stylesheets/template.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <link href="css/stylesheets/responsive.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	
+</head>
+
 
 <body>
     <!-- Status bar overlay for fullscreen mode-->
@@ -10,6 +29,8 @@
     <div class="views">
         <!-- Your main view, should have "view-main" class-->
         <div class="view view-main">
+		
+			
             <!-- Top Navbar-->
             <div class="navbar">
                 <div class="navbar-inner">
@@ -19,13 +40,15 @@
                     <!-- Title of the page-->
                 </div>
             </div>
+			
+		
 			<p></p>
             <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
             <div class="pages navbar-through">
 			
 							
                 <!-- Page, data-page contains page name-->
-                <div data-page="login" class="page no-navbar no-toolbar no-swipeback">
+                <div data-page="login" class="page no-navbar no-toolbar no-swipeback" id="page_login">
 				  <div class="page-content login-screen-content">
 				  
 				  <br>
@@ -33,11 +56,12 @@
 							
 					<div class="login-screen-title">Login<span></div>
 					<div class="row">
-								<div class="col-25"></div>
-								<div class="col-50"><img src="icon/susd-logo2.png" ></div>
-								<div class="col-25"></div>
+								<!--
+								<div class="col-100"><img src="icon/logo.jpg" style="width: 200px; height: 150px;"></div>
+								-->
+								
 							
-							</div>
+					</div>
 					<form id="login-form" class="form-horizontal" role="form" method="post">
 					  <div class="list-block">
 						<ul>
@@ -67,60 +91,36 @@
 						  </li>
 						</ul>
 					  </div>
+					  
+					  
+					  
+					  
 					  <div class="list-block">
 						<ul>
 						  <li><a href="#" class="item-link button button-round">Login</a></li>
 						</ul>
+						
+					  </div>
+					  
+					  <div class="list-block">
+						
+						<div class="list-block-label">
+						  <a href="retrieveCredentials.html"><u>Forgot username/password?</u></a>
+						</div>
 						<div class="list-block-label">
 						  <a href="start.html">Return</a>
 						</div>
 					  </div>
+					  
 					</form>
 				  </div>
 				</div>  
             </div>
         </div>
+		
     </div>
+	
+	
 </body>
+</html>
 
-
-
-<!--
-<body>
-<div data-page="login-screen" class="page no-navbar no-toolbar no-swipeback">
-  <div class="page-content login-screen-content">
-    <div class="login-screen-title">Copernic</div>
-    <form class="login">
-      <div class="list-block">
-        <ul>
-          <li class="item-content">
-            <div class="item-inner">
-              <div class="item-title label">Username</div>
-              <div class="item-input">
-                <input type="text" name="username" placeholder="Your username"/>
-              </div>
-            </div>
-          </li>
-          <li class="item-content">
-            <div class="item-inner">
-              <div class="item-title label">Password</div>
-              <div class="item-input">
-                <input type="password" name="password" placeholder="Your password"/>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="list-block">
-        <ul>
-          <li><a href="#" class="item-link button button-round">Login</a></li>
-        </ul>
-        <div class="list-block-label">
-          <a href="index.html">I have already account GO HOME</a>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>  
-</body>
--->

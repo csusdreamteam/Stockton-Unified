@@ -12,8 +12,32 @@
             <div class="pages navbar-through">
                 <div data-page="signup" class="page">
                     <div class="page-content">
+						<div class="list-block">
+							<div class="list-block-label">
+								<center>Registration</center>
+							</div>
+						</div>
+						
                         <form id="signup-form" class="form-horizontal" role="form" method="post">
-                            <div class="list-block">
+                            <!-- EMAIL -->
+							<div class="list-block">
+                                <ul>
+                                    <li class="signup">
+                                        <div class="form-group" id="email-field">
+											<div class="item-content">
+												<div class="item-inner">
+													<div class="item-title label">Email</div>
+													<div class="item-input">
+														<input type="email" class="form-control" id="form-email" name="form-email" placeholder="Email" required>
+													</div>
+												</div>
+											</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+							<!-- USERNAME -->
+							<div class="list-block">
                                 <ul>
                                     <li class="signup">
                                         <div class="form-group" id="username-field">
@@ -29,7 +53,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            
+                            <!-- PASSWORD -->
                             <div class="list-block">
                                 <ul>
                                     <li class="signup">
@@ -46,16 +70,36 @@
                                     </li>
                                 </ul>
                             </div>
-
+							
+							<!-- CONFIRM PASSWORD -->
+							
+                            <div class="list-block">
+                                <ul>
+                                    <li class="signup">
+                                        <div class="form-group" id="password-field">
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label">Password</div>
+                                                <div class="item-input">
+                                                    <input type="password" class="form-control" id="form-password2" name="form-password2" placeholder="Confirm Password" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+							
+							
                             <div class="list-block">
 								<div class="send_button">
 									<a href="#" class="item-link button button-round">Sign Up</a>
 								</div>
-								<ul>
+								
 									<div class="list-block-label">
 										<center><a href="start.html">Return</a></center>
 									</div>
-								</ul>
+								
 							</div>
                         </form>
 
