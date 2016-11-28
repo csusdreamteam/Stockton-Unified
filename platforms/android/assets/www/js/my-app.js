@@ -458,7 +458,7 @@ myApp.onPageInit('schoolDirectory', function(page){
 						
 					}
 					else if(device.platform === 'Android') {
-						var url2 = 'comgooglemaps://?daddr='+_school_address;
+						var url2 = 'http://maps.google.com/maps?saddr='+_school_address;
 						window.open(url2, '_system');
 						
 					}	

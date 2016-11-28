@@ -78,15 +78,11 @@
     <feature name="Vibration">
         <param name="ios-package" value="CDVVibration" />
     </feature>
-    <name>Stockton, Unified</name>
-    <description>
-        Mobile Application for the Stockton Unified School District. Created by CSUS-DREAMTEAM
-    </description>
-    <author email="csusdreamteam@gmail.com">
-        CSUS Dream Team
-    </author>
+    <name>Connect Stockton Unified</name>
+    <description>A mobile app to connect the Stockton Unified School District.</description>
+    <author email="support@phonegap.com" href="http://phonegap.com">PhoneGap Team</author>
     <content src="index.html" />
-    <icon src="icon/susd-logo.png" />
+    <icon src="www/icon/susd-logo2.png" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -122,6 +118,11 @@
     <splash height="480" platform="ios" src="www/res/screen/ios/Default~iphone.png" width="320" />
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
+    <access launch-external="yes" origin="tel://*" />
+    <access launch-external="yes" origin="geo://*" />
+    <access launch-external="yes" origin="mailto://*" />
+    <access launch-external="yes" origin="sms://*" />
+    <access launch-external="yes" origin="market://*" />
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="cloud" />
     <preference name="DisallowOverscroll" value="true" />
@@ -138,6 +139,5 @@
     <preference name="CameraUsesGeolocation" value="false" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
-    <preference name="Orientation" value="portrait" />
     <preference name="android-minSdkVersion" value="14" />
 </widget>
