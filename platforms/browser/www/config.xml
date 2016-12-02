@@ -6,12 +6,11 @@
     <feature name="Device">
         <param name="browser-package" value="Device" />
     </feature>
-    <name>test</name>
-    <description>Hello World sample application that responds to the deviceready event.</description>
+    <name>Connect Stockton Unified</name>
+    <description>A mobile app to connect the Stockton Unified School District.</description>
     <author email="support@phonegap.com" href="http://phonegap.com">PhoneGap Team</author>
     <content src="index.html" />
-    <gap:plugin name="com.ohh2ahh.plugins.appavailability" version="0.3.1" />
-    <icon src="icon.png" />
+    <icon src="www/icon/susd-logo2.png" />
     <access origin="*" />
     <access launch-external="yes" origin="tel://*" />
     <access launch-external="yes" origin="geo://*" />

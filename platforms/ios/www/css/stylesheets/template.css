@@ -343,6 +343,8 @@ input {
   font-size: 13px !important;
   font-weight: 400;
   color: #4D4D4D !important;
+  color: red;
+
   padding: 0 !important;
 }
 
@@ -400,7 +402,7 @@ textarea {
   -ms-appearance: none;
   appearance: none;
   background: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0, #2c3e50), color-stop(100%, #2c3e50));
-  /* background: linear-gradient(to right,#b7b8b7 0,#b7b8b7 100%); */
+   background: linear-gradient(to right,#b7b8b7 0,#b7b8b7 100%); 
   background-position: center;
   background-size: 100% 2px;
   background-repeat: no-repeat;
@@ -942,4 +944,11 @@ p.caps {
   width: auto;
   color: #2c3e50;
   font-weight: 500;
+}
+
+.disable-text-selection{
+	-webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' *
+}
 }

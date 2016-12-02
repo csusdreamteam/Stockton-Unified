@@ -3,26 +3,63 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />-->
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
+    <title>Hello World</title>
+	<script type="text/javascript">
+            //window.location.href = "start.html"
+    </script>
+	
+	
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Stockton, Unified!</title>
-    <link rel="shortcut icon" href="icon/icon.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="icon/icon.png" type="image/x-icon" />
     <link rel="apple-touch-icon" href="icon/icon.png">
     <link rel="apple-touch-icon-precomposed" href="icon/icon.png">
-    <!-- Path to Framework7 Library CSS-->
-    <link href="css/stylesheets/framework7.min.css" media="screen, projection" rel="stylesheet" type="text/css" />
-    <!-- Path to your custom app styles-->
-    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
-    <link href="css/stylesheets/template.css" media="screen, projection" rel="stylesheet" type="text/css" />
-    <link href="css/stylesheets/responsive.css" media="screen, projection" rel="stylesheet" type="text/css" />
-	<link href="css/stylesheets/index.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	
+	<link href="css/stylesheets/framework7.min.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
+	<link href="css/stylesheets/template.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	<link href="css/stylesheets/responsive.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	
+	
+	
 	<script type="text/javascript">
 		window.onload = function(){
-			document.getElementById("currentUser").innerHTML="Hello, " + localStorage.username+"!";
+			document.getElementById("currentUser").innerHTML="<p style='color:white; font-size: 15px;'>&nbsp;&nbsp;&nbsp;Logged in as:&nbsp;&nbsp;" + localStorage.username +"</h1>";
+			
+			document.getElementById("logout").onclick= function(){
+				
+				localStorage.clear();
+				window.location.href = "start.html";
+				
+			}	
+			
+			
+		
 		}
 	</script>
+	
+
+	
+	
 	
 </head>
 
@@ -42,7 +79,7 @@
             <li><a href="main.html"><i class="fa fa-home"></i>Home</a></li> 
 			<li><a href="schoolDirectory.html"><i class="fa fa-circle"></i>School Directory</a></li>
 			<li><a href="corporateDirectory.html"><i class="fa fa-circle"></i>Corporate Directory</a></li>
-			<li><a href="#"><i class="fa fa-sign-out"></i>Logout</a></li> 
+			<li><a id="logout" href="#" ><i  class="fa fa-sign-out"></i>Logout</a></li> 
           </ul>
         </nav>
     </div>
@@ -70,10 +107,12 @@
             <div class="pages navbar-through toolbar-through">
                 <!-- Page, data-page contains page name-->
                 <div data-page="main" class="page">
+					
                     <!-- Scrollable page content-->
                     <div class="toolbar tabbar tabbar-labels-through">
 						<div class="toolbar-inner">
 							<!-- Calendar Tab -->
+							
 							<a href="#tab1" class="tab-link">
 								<div class="icon_middle"><i class="fa fa-calendar"></i><span style="font-size: 10pt">Calendar</span></div>
 							</a>
@@ -82,7 +121,7 @@
 								<div class="icon_middle"><i class="fa fa-newspaper-o"></i><span style="font-size: 10pt">News Feed</span></div>
 							</a>
 							<!-- Resources Tab -->
-							<a href="#tab3" class="tab-link">
+							<a id="res" href="#tab3" class="tab-link">
 								<div class="icon_middle"><i class="fa fa-wrench"></i><span style="font-size: 10pt">Resources</span></div>
 							</a>
 						</div>
@@ -97,7 +136,6 @@
                                     <div class="content-block">
                                         <h1><center>Calendar</center></h1>
 										<a href="calendar/calendar.html" class="item-link button button-round">Calendar</a>
-                                        <
                                     </div>
                                 </div>
 
@@ -198,19 +236,23 @@
                             </div>
                             <div class="row home">
                                 <div class="col-33">
-                                    <a href="resources/email.html" class="link">
+                                    <!--<a href="resources/email.html" class="link">-->
+									<a href="#" class="link" onclick="if(device.platform === 'iOS'){window.open('ms-outlook://','_system');}else if(device.platform === 'Android') {}">
+									
                                         <img class="icon" alt="icon" src="icon/contact.png" />
                                         <span>Email</span>
                                     </a>
                                 </div>
                                 <div class="col-33">
                                     <a href="resources/subFinder.html" class="link">
+									<a href="#" class="link" onclick="window.open('http://www.stocktonusd.net/Page/3001', '_blank', 'toolbar=yes');">
                                         <img class="icon" alt="icon" src="icon/button.png" />
                                         <span>Subfinder</span>
                                     </a>
                                 </div>
                                 <div class="col-33">
-                                    <a href="resources/goSignMeUp.html" class="link">
+                                    <!--<a href="resources/goSignMeUp.html" class="link">-->
+									<a href="#" class="link" onclick="window.open('https://gsmu.stocktonusd.net/dev_students.asp?action=login&misc=897', '_blank', 'toolbar=yes');">
                                         <img class="icon" alt="icon" src="icon/gallery.png" />
                                         <span>Go Sign Me Up</span>
                                     </a>
@@ -218,21 +260,21 @@
                             </div>
  <!--                           <div class="row home">
                                 <div class="col-33">
-                                    <a href="typo.html" class="link">
+                                    <a href="#" class="link" onclick="window.open('https://share911.com/', '_blank', 'toolbar=yes');">
                                         <img class="icon" alt="icon" src="icon/typo.png" />
-                                        <span>Typography</span>
+                                        <span>SHARE911</span>
                                     </a>
                                 </div>
                                 <div class="col-33">
-                                    <a href="buttons.html" class="link">
+                                    <a href="#" class="link" onclick="window.open('http://www.stocktonusd.net/lcap', '_blank', 'toolbar=yes');">
                                         <img class="icon" alt="icon" src="icon/video.png" />
-                                        <span>Buttons</span>
+                                        <span>SUSD LCAP</span>
                                     </a>
                                 </div>
                                 <div class="col-33">
-                                    <a href="colors.html" id="colors" class="link">
+                                    <a href="#"  class="link" onclick="window.open('http://www.stocktonusd.net/Page/7907', '_blank', 'toolbar=yes');">
                                         <img class="icon" alt="icon" src="icon/color.png" />
-                                        <span>Colors</span>
+                                        <span>I'm New Here</span>
                                     </a>
                                 </div>
                             </div>
@@ -253,10 +295,11 @@
     <script src="js/jquery.js"></script>
     <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/framework7.min.js"></script>
+
     <!-- Path to your app js-->
     <script type="text/javascript" src="js/my-app.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8JQnlDffI9JeDvRMnHNHHpI9B1DKSnIs&callback=initMap"
-    async defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8JQnlDffI9JeDvRMnHNHHpI9B1DKSnIs&callback=initMap" async defer></script>
+	
 	
 </body>
 
