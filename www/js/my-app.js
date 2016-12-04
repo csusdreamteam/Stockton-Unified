@@ -541,7 +541,7 @@ myApp.onPageInit('schoolDirectory', function(page){
 						
 					}
 					else if(device.platform === 'Android') {
-						var url2 = 'comgooglemaps://?daddr='+_school_address;
+						var url2 = 'http://maps.google.com/maps?saddr='+_school_address;
 						window.open(url2, '_system');
 						
 					}	
@@ -877,20 +877,19 @@ function uploadPhoto(imageURI) {
 	
 function win(r) {
 	//SUCCESSFULLY UPLOADED FILE TO SERVER
-	//alert('success');
-	//alert("Code = " + r.responseCode);
-	//alert("Response = " + r.response);
-	//alert("Sent = " + r.bytesSent);
+	console.log('success');
+	console.log("Code = " + r.responseCode);
+	console.log("Response = " + r.response);
+	console.log("Sent = " + r.bytesSent);
 	return;
 	
 }
 
 function fail(error) {
 	//FAILED TO UPLOAD FILE TO SERVER
-	
-	//myApp.alert("An error has occurred: Code = " + error.code);
-	//alert("upload error source " + error.source);
-    //alert("upload error target " + error.target);
+	console.log("An error has occurred: Code = " + error.code);
+	console.log("upload error source " + error.source);
+    console.log"upload error target " + error.target);
 	return;
 	
 }
@@ -958,12 +957,6 @@ myApp.onPageInit('post_news_story', function (page) {
 	});
 	
 
-
-
-	
-	
-
-	
 	
 	
 	
@@ -976,23 +969,7 @@ myApp.onPageInit('post_news_story', function (page) {
 		var input_has_errors = false;
 		
 		
-		
-		
-
-		
-		
-		/*
-		if(photo_selected){
-			//myApp.alert('photo attached');
-			uploadPhoto(imgURI)
-		}
-		else if(!photo_selected) {
-			//myApp.alert('photo not attached');
-			
-		}
-		*/
-		
-		
+	
 		
 		
 
@@ -1083,11 +1060,7 @@ myApp.onPageInit('post_news_story', function (page) {
 					//myApp.alert('Posted!');
 					
 					mainView.router.loadPage('main.html')
-					
-		
-					
-		
-				
+
 				}
 			}).fail(function (data) {
 				// for debug
@@ -1098,9 +1071,6 @@ myApp.onPageInit('post_news_story', function (page) {
 	
 		}
 		
-		
-		
-		//window.location.href="main.html";
 		
 		
 		
@@ -1250,10 +1220,6 @@ function loadNewsStory(id){
 			
 	
 	
-	
-	
-	
-	$('#news_story_title').append(story_title);
 	
 	
 	return;
