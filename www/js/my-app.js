@@ -889,7 +889,7 @@ function fail(error) {
 	//FAILED TO UPLOAD FILE TO SERVER
 	console.log("An error has occurred: Code = " + error.code);
 	console.log("upload error source " + error.source);
-    console.log"upload error target " + error.target);
+    console.log("upload error target " + error.target);
 	return;
 	
 }
