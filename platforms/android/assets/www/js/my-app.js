@@ -1,11 +1,40 @@
-// Initialize your app
+// EXPORT SELECTORS ENGINE
+var $$ = Dom7;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Initialize your app
 var myApp = new Framework7({
-	tapHold: true,
+	
 	swipePanel: 'right',
 	
 	onPageInit: function (app, page) {
     if (page.name === 'main') {
+			
 			
 			
 			var Admin = 0;
@@ -32,7 +61,7 @@ var myApp = new Framework7({
 			$('#homepage').on('click',function(){
 				//IF USER CLICKS ON 'HOME' BUTTON IN THE SIDEBAR
 				
-				mainView.router.loadPage('main.html');
+				window.location.href="main.html";
 			});
 			
 			
@@ -51,6 +80,64 @@ var myApp = new Framework7({
 			});
 			
 			
+			var ptrContent = $$('.pull-to-refresh-content');
+			
+			
+			$('#res').on('click',function(){
+				
+				
+				myApp.params.swipePanel = 'right';
+				
+				
+				myApp.destroyPullToRefresh(page.container);	//DISABLE 'PULL TO REFRESH' IN RESOURCES PAGE
+
+			});
+			
+			$('#feed').on('click',function(){
+
+				
+				myApp.params.swipePanel = 'right';
+				
+			
+				myApp.initPullToRefresh(page.container);	//ENABLE 'PULL TO REFRESH' IN NEWS FEED
+				
+
+			});
+
+
+			
+			$('#calendar').on('click',function(){
+
+				myApp.destroyPullToRefresh(page.container);	//DISABLE 'PULL TO REFRESH' IN CALENDAR PAGE
+				//var myCalendar = $$('#calendar-inline-container');
+				//myCalendar.close();
+				
+				var swipePanel = myApp.params.swipePanel;
+				if(swipePanel == "right"){
+					myApp.params.swipePanel = false;
+				}
+				
+
+			
+				
+
+			});
+			
+			
+			
+			ptrContent.on('refresh', function (e) {
+				myApp.params.swipePanel = true;
+				setTimeout(function () {
+					
+					window.location.href="main.html";
+					myApp.pullToRefreshDone();
+				}, 1000);
+					
+			});
+			
+
+					
+			
 			
 			
 		}
@@ -61,8 +148,7 @@ var myApp = new Framework7({
 
 
 
-// EXPORT SELECTORS ENGINE
-var $$ = Dom7;
+
 
 
 // ADD VIEW
@@ -72,6 +158,107 @@ var mainView = myApp.addView('.view-main', {
 	
 	
 });
+
+
+
+
+/*	
+var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
+ 
+var calendarInline = myApp.calendar({
+	container: '#calendar-inline-container',
+	value: [new Date()],
+	firstDay: 0,
+	weekHeader: true,
+	toolbarTemplate: 
+		'<div class="toolbar calendar-custom-toolbar">' +
+			'<div class="toolbar-inner">' +
+				'<div class="left">' +
+					'<a href="#" class="link icon-only"><i class="icon icon-back"></i></a>' +
+				'</div>' +
+				'<div class="center"></div>' +
+				'<div class="right">' +
+					'<a href="#" class="link icon-only"><i class="icon icon-forward"></i></a>' +
+				'</div>' +
+			'</div>' +
+		'</div>',
+		
+		
+	onOpen: function (p) {
+		
+		
+		$$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
+		$$('.calendar-custom-toolbar .left .link').on('click', function () {
+			calendarInline.prevMonth();
+		});
+		$$('.calendar-custom-toolbar .right .link').on('click', function () {
+			calendarInline.nextMonth();
+		});
+		
+	},
+	onMonthYearChangeStart: function (p) {
+		
+		$$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
+		
+	},
+	
+	onDayClick: function(p, dayContainer, year, month, day){
+		
+		alert(year + month + day);
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+});
+
+
+
+
+
+
+
+var today = new Date();
+var weekLater = new Date().setDate(today.getDate() + 7);
+ 
+var calendarEvents = myApp.calendar({
+    input: '#calendar-events',
+    dateFormat: 'M dd yyyy',
+    events: {
+      from: today,
+      to: weekLater
+    }
+});
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function onBackKeyDown() { $$(".back").click(); } 
@@ -99,55 +286,6 @@ $$('.action2').on('click', function () {
 
 
 
-myApp.onPageInit('calendar', function (page) {
-    // Default
-
-      var calendarDefault = myApp.calendar({
-          input: '#calendar-default'
-      });
-      // With custom date format
-      var calendarDateFormat = myApp.calendar({
-          input: '#calendar-date-format',
-          dateFormat: 'DD, MM dd, yyyy'
-      });
-      // With multiple values
-      var calendarMultiple = myApp.calendar({
-          input: '#calendar-multiple',
-          dateFormat: 'M dd yyyy',
-          multiple: true
-      });
-      // Inline with custom toolbar
-      var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
-      var calendarInline = myApp.calendar({
-          container: '#calendar-inline-container',
-          value: [new Date()],
-          weekHeader: false,
-          toolbarTemplate: 
-              '<div class="toolbar calendar-custom-toolbar">' +
-                  '<div class="toolbar-inner">' +
-                      '<div class="left">' +
-                          '<a href="#" class="link icon-only"><i class="fa fa-chevron-left"></i></a>' +
-                      '</div>' +
-                      '<div class="center"></div>' +
-                      '<div class="right">' +
-                          '<a href="#" class="link icon-only"><i class="fa fa-chevron-right"></i></a>' +
-                      '</div>' +
-                  '</div>' +
-              '</div>',
-          onOpen: function (p) {
-              $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
-              $$('.calendar-custom-toolbar .left .link').on('click', function () {
-                  calendarInline.prevMonth();
-              });
-              $$('.calendar-custom-toolbar .right .link').on('click', function () {
-                  calendarInline.nextMonth();
-              });
-          },
-          onMonthYearChangeStart: function (p) {
-              $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
-          }
-});
-});
 
 
 
@@ -505,7 +643,7 @@ myApp.onPageInit('schoolDirectory', function(page){
 						
 					}
 					else if(device.platform === 'Android') {
-						var url2 = 'comgooglemaps://?daddr='+_school_address;
+						var url2 = 'http://maps.google.com/maps?saddr='+_school_address;
 						window.open(url2, '_system');
 						
 					}	
@@ -748,7 +886,7 @@ myApp.onPageInit('contact_info', function(page){
 	// User can dial a phone number just by clicking on the link
 	$('#list1').on('click', '#phone_num', function(){
 		
-		var phone_num = $("#phone").text()
+		var phone_num = $("#phone").text();
 		
 		myApp.confirm('Call  ' + phone_num, function () {
 			
@@ -783,7 +921,7 @@ myApp.onPageInit('contact_info', function(page){
         }
       },
     ]
-  })
+  });
 });
 	
 
@@ -797,17 +935,8 @@ function checkIfUserIsAdmin(){
 
 
 
-var news_story_text;
-var news_story_title;
 
-myApp.onPageInit('news_story', function (page) {
-  
-	$('#news_story_paragraph').empty();
-	$('#news_story_title').empty();
-	$('#news_story_paragraph').append(news_story_text);
-	$('#news_story_title').append(news_story_title);
-	
-});
+
 
 
 function removeImage(){
@@ -827,44 +956,46 @@ function uploadPhoto(imageURI) {
 			
 	var options = new FileUploadOptions();
 	options.fileKey="file";
-	//options.fileName='image'+imageURI.substr(imageURI.lastIndexOf('/')+1);
+	//options.fileName= imageURI.substr(imageURI.lastIndexOf('/')+1);
 	options.fileName='image_'+Math.floor((Math.random() * 10000) + 1)+'.jpg';
 	filename = options.fileName;
 	options.mimeType="image/jpeg";
 	
 	
-	var params = new Object();
-	params.value1 = "test";
-	params.value2 = "param";
+	//var params = new Object();
+	//params.value1 = "test";
+	//params.value2 = "param";
 
-	options.params = params;
+	//options.params = params;
 	options.chunkedMode = false;
+	
+	
 
+	
 	var ft = new FileTransfer();
+	//alert('uploading');
 	ft.upload(imageURI, "http://athena.ecs.csus.edu/~dteam/upload.php", win, fail, options);
 	
-	return;
-	
+
 }
 	
 	
 function win(r) {
 	//SUCCESSFULLY UPLOADED FILE TO SERVER
-	//alert('success');
-	//alert("Code = " + r.responseCode);
-	//alert("Response = " + r.response);
-	//alert("Sent = " + r.bytesSent);
-	return;
+	
+	console.log("Code = " + r.responseCode);
+	console.log("Response = " + r.response);
+	console.log("Sent = " + r.bytesSent);
 	
 }
 
 function fail(error) {
 	//FAILED TO UPLOAD FILE TO SERVER
 	
-	//myApp.alert("An error has occurred: Code = " + error.code);
-	//alert("upload error source " + error.source);
-    //alert("upload error target " + error.target);
-	return;
+	console.log("An error has occurred: Code = " + error.code);
+	console.log("upload error source " + error.source);
+    console.log("upload error target " + error.target);
+	
 	
 }
 
@@ -892,12 +1023,14 @@ function setPhotoSelected(value){
 
 myApp.onPageInit('post_news_story', function (page) {
 	
-	
-	
+
 	
 	$('#camera_roll').on('click',function(){
 		
-			navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+			navigator.camera.getPicture(onSuccess, onFail, { 
+			quality: 50,
+			targetWidth: 640,
+			targetHeight: 480,
 			sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
 			destinationType: Camera.DestinationType.FILE_URI,
 			encodingType: Camera.EncodingType.JPEG
@@ -909,6 +1042,7 @@ myApp.onPageInit('post_news_story', function (page) {
 			$('#img-block').append('<button id="close" onclick="removeImage();" style="position: absolute; top: 0; right: 0;display: none; color: #696969; border-radius: 100%; height: 30px; background-color: #d3d3d3; border: none;"><b>X</b></button>');
 			
 			setPhotoSelected(true);
+			
 			
 			var image = document.getElementById('myImage');
 			var closeBtn = document.getElementById('close');
@@ -931,12 +1065,6 @@ myApp.onPageInit('post_news_story', function (page) {
 	});
 	
 
-
-
-	
-	
-
-	
 	
 	
 	
@@ -949,23 +1077,7 @@ myApp.onPageInit('post_news_story', function (page) {
 		var input_has_errors = false;
 		
 		
-		
-		
-
-		
-		
-		/*
-		if(photo_selected){
-			//myApp.alert('photo attached');
-			uploadPhoto(imgURI)
-		}
-		else if(!photo_selected) {
-			//myApp.alert('photo not attached');
-			
-		}
-		*/
-		
-		
+	
 		
 		
 
@@ -976,29 +1088,11 @@ myApp.onPageInit('post_news_story', function (page) {
 		}
 		
 		
+
 		
-		/*
-		if((imgURI != null) || (imgURI != "")){
-			img_filename = imgURI.substr(imgURI.lastIndexOf("/")+1);
-			alert(img_filename);
-		}
-		*/
-		/*
-		if((imgURI != null) || (imgURI != "")){
-			
-			//onSuccess(imgURI);
-			
-			myApp.alert("image yes");
-			
-			img_filename = imgURI.substr(imgURI.lastIndexOf("/")+1);
-			
-		
-			
-		}
-		*/
 		
 		var photo = getPhotoSelected();
-	
+		
 		
 		//IF INPUT HAS NO ERRORS
 		if(!input_has_errors && (photo == true)){
@@ -1027,8 +1121,17 @@ myApp.onPageInit('post_news_story', function (page) {
 					
 				} else {
 					// display success message
-					//myApp.alert('Posted!');
-					mainView.router.loadPage('main.html');
+					myApp.alert('Posted!');
+					
+					//mainView.router.loadPage('main.html')
+					setTimeout(function () {
+					
+						
+						window.location.href="main.html";
+						
+					}, 500);
+		
+					
 					
 				
 				}
@@ -1062,10 +1165,10 @@ myApp.onPageInit('post_news_story', function (page) {
 					
 				} else {
 					// display success message
-					//myApp.alert('Posted!');
-					mainView.router.loadPage('main.html');
+					myApp.alert('Posted!');
 					
-				
+					mainView.router.loadPage('main.html')
+
 				}
 			}).fail(function (data) {
 				// for debug
@@ -1079,34 +1182,160 @@ myApp.onPageInit('post_news_story', function (page) {
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 			
 	});
 	
-  
+	
 });
 
 
-function loadNewsStory(paragraph, title){
-	alert('load story');
-	news_story_text = paragraph;
-	news_story_title = title;
-	mainView.router.loadPage('news_story.html');
+
+function loadNewsStory(id){
+	
+	
+	
+	
+	var formData = {
+				
+		'ID' : id
+            
+	};
+			
+			
+			
+	$.ajax({
+	type : 'POST',
+	url  : 'http://athena.ecs.csus.edu/~dteam/load_news_story.php',
+	data : formData,
+	dataType : 'json',
+	encode : true
+	}).done(function (data) {
+	// handle errors
+	if (!data.success) {
+		// YEE
+		alert('error');
+	} else {
+		// display success message
+		//RELOAD THE NEWS FEED PAGE
+		var title = data['TITLE'];
+		
+		var body = data['BODY'];
+		var date_posted = data['DATE_POSTED'];
+		var filename = data['IMAGE_FILENAME'];
+		
+		//myApp.alert(sessionStorage.title);
+		
+		if((filename == null) || (filename == "")){
+			
+			var newPageContent = '<div class="navbar">'+
+							'<div class="navbar-inner">'+
+					
+								'<div class="left">'+
+									'<a href="#" class="back">'+
+										'<i class="icon icon-back"></i>'+
+									'</a>'+
+								'</div>'+
+								'<div class="center">'+
+									'<img src="icon/susd-logo.png" style="width: 40px; height: 30px;"></img>'+
+								'</div>'+
+								'<div class="right">'+
+									'<a href="#" class="link icon-only open-panel">'+
+										'<i class="fa fa-bars"></i>'+
+									'</a>'+
+								'</div>'+
+							'</div>'+
+						'</div>'+
+						'<div class="page" data-page="my_news_story_page">' +
+							'<div class="page-content">' +
+								'<div class="content-block">'+
+									'<div class="content-block-title" id="news_story_title"><h3><strong>'+title+'</strong></h3></div>'+
+									
+									
+								
+									'<div class="content-block-inner" id="news_story_paragraph"><p style="color: grey;">Posted on '+date_posted+'</p><p>'+body+'</p></div>'+
+									
+								'</div>'+
+							
+							'</div>' +
+                      '</div>';
+			
+		}
+		else {
+		
+		var URI = 'http://athena.ecs.csus.edu/~dteam/susd_newsfeed_images/'+filename;
+		
+		var newPageContent = '<div class="navbar">'+
+							'<div class="navbar-inner">'+
+					
+								'<div class="left">'+
+									'<a href="#" class="back">'+
+										'<i class="icon icon-back"></i>'+
+									'</a>'+
+								'</div>'+
+								'<div class="center">'+
+									'<img src="icon/susd-logo.png" style="width: 40px; height: 30px;"></img>'+
+								'</div>'+
+								'<div class="right">'+
+									'<a href="#" class="link icon-only open-panel">'+
+										'<i class="fa fa-bars"></i>'+
+									'</a>'+
+								'</div>'+
+							'</div>'+
+						'</div>'+
+						'<div class="page" data-page="my_news_story_page">' +
+							'<div class="page-content">' +
+								'<div class="content-block">'+
+									'<div class="content-block-title" id="news_story_title"><h3><strong>'+title+'</strong></h3></div>'+
+									
+									
+								
+									'<div class="content-block-inner" id="news_story_paragraph"><img id="image" src="'+URI+'" style="display: block; width: 100%; height: 50%;"/><p style="color: grey;">Posted on '+date_posted+'</p><p>'+body+'</p></div>'+
+									
+								'</div>'+
+							
+							'</div>' +
+                      '</div>';
+					  
+		}				
+	
+	
+	
+	
+	
+	
+	mainView.router.loadContent(newPageContent);
+		
+		
+		
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	}).fail(function (data) {
+		// for debug 
+	
+		alert('An error occured ');
+	});
+			
+	
+	
+	
+	
 	return;
 }
 
-function deleteNewsStory(title){
+function deleteNewsStory(id,img_filename){
+	
+	
 	
 	myApp.modal({
     title:  'Delete Post?',
@@ -1125,7 +1354,8 @@ function deleteNewsStory(title){
 			
 			
 			var formData = {
-				'title' : title
+				'ID' : id,
+				'img_filename': img_filename
             
 			};
 			
@@ -1163,14 +1393,17 @@ function deleteNewsStory(title){
         }
       },
     ]
-  })
+  });
+  
+  
+  
   
   
 }
 
 
 function getNewsFeedWithPrivileges(){
-
+	
 	//DISPLAY OPTION TO CREATE A NEW POST -ADMIN ONLY
 	$('#post_new_story_link').append('<ul> <li> <a href="#" class="item-link" id="new_post"> <div class="item-content"> <div class="item-media"><i class="fa fa-plus-square-o fa-2x" style="color:#007aff;"></i></div> <div class="item-inner"><p>Post to News Feed</p> </div> </div> </a> </li> </ul>');
 	
@@ -1198,16 +1431,19 @@ function getNewsFeedWithPrivileges(){
 				
 				if((filename == null) || (filename == "")){
 					
-					$('#newsfeed').append('<div class="card" > <div class="card-header" id="title"><b>'+data[i]['TITLE']+'</b></div> <div class="card-content"> <div class="card-content-inner" id="content-inner"><p id="date" class="color-gray">Posted on '+data[i]['DATE_POSTED']+'</p><p id="description">'+data[i]['DESCRIPTION']+'</p></div> </div> <div class="card-footer"><a href="#" class="link" id="readmore"  onclick="loadNewsStory(\''+data[i]['BODY']+'\',\''+data[i]['TITLE']+'\');">Read More</a><a href="#" id="delete_post" onclick="deleteNewsStory(\''+data[i]['TITLE']+'\')" class="link open-3-modal" style="color:red;">Delete</a></div> </div>');
+					$('#newsfeed').append('<div class="card" > <div class="card-header" id="title"><b>'+data[i]['TITLE']+'</b></div> <div class="card-content"> <div class="card-content-inner" id="content-inner"><p id="date" class="color-gray">Posted on '+data[i]['DATE_POSTED']+'</p><p id="description">'+data[i]['DESCRIPTION']+'</p></div> </div> <div class="card-footer"><a href="#" class="link" id="readmore"  onclick="loadNewsStory(\''+data[i]['ID']+'\');">Read More</a><a href="#" id="delete_post" onclick="deleteNewsStory(\''+data[i]['ID']+'\',\''+data[i]['IMAGE_FILENAME']+'\')" class="link open-3-modal" style="color:red;">Delete</a></div> </div>');
 
 				} else {
 				
-				
+					d = new Date();
 					var URI = 'http://athena.ecs.csus.edu/~dteam/susd_newsfeed_images/'+filename;
+					
 				
+					//$('#newsfeed').append('<img id="image" src="'+URI+'" style="display: block; width: 100%; height: 50%;"/>');																																																																																																			
+					
+					$('#newsfeed').append('<div class="card" > <div class="card-header" id="title"><b>'+data[i]['TITLE']+'</b></div> <div class="card-content"> <div class="card-content-inner" id="content-inner"><p id="date" class="color-gray">Posted on '+data[i]['DATE_POSTED']+'</p><img id="image" src="'+URI+'" style="display: block; width: 100%; height: 50%;"/><p id="description">'+data[i]['DESCRIPTION']+'</p></div> </div> <div class="card-footer"><a href="#" class="link" id="readmore"  onclick="loadNewsStory(\''+data[i]['ID']+'\');">Read More</a><a href="#" id="delete_post" onclick="deleteNewsStory(\''+data[i]['ID']+'\',\''+data[i]['IMAGE_FILENAME']+'\')" class="link open-3-modal" style="color:red;">Delete</a></div> </div>');
 				
-					$('#newsfeed').append('<div class="card" > <div class="card-header" id="title"><b>'+data[i]['TITLE']+'</b></div> <div class="card-content"> <div class="card-content-inner" id="content-inner"><p id="date" class="color-gray">Posted on '+data[i]['DATE_POSTED']+'</p><img id="image" src="'+URI+'" style="display: block; width: 100%; height: 50%;"/><p id="description">'+data[i]['DESCRIPTION']+'</p></div> </div> <div class="card-footer"><a href="#" class="link" id="readmore"  onclick="loadNewsStory(\''+data[i]['BODY']+'\',\''+data[i]['TITLE']+'\');">Read More</a><a href="#" id="delete_post" onclick="deleteNewsStory(\''+data[i]['TITLE']+'\')" class="link open-3-modal" style="color:red;">Delete</a></div> </div>');
-				
+					
 			
 				}
 				
@@ -1253,7 +1489,8 @@ function getNewsFeedReadOnly(){
 				
 				if((filename == null) || (filename == "")){
 					
-					$('#newsfeed').append('<div class="card" > <div class="card-header" id="title"><b>'+data[i]['TITLE']+'</b></div> <div class="card-content"> <div class="card-content-inner" id="content-inner"><p id="date" class="color-gray">Posted on '+data[i]['DATE_POSTED']+'</p><p id="description">'+data[i]['DESCRIPTION']+'</p></div> </div> <div class="card-footer"><a href="#" class="link" id="readmore"  onclick="loadNewsStory(\''+data[i]['BODY']+'\',\''+data[i]['TITLE']+'\');">Read More</a><a href="#" id="delete_post" onclick="deleteNewsStory(\''+data[i]['TITLE']+'\')" class="link open-3-modal" style="color:red;">Delete</a></div> </div>');
+					$('#newsfeed').append('<div class="card" > <div class="card-header" id="title"><b>'+data[i]['TITLE']+'</b></div> <div class="card-content"> <div class="card-content-inner" id="content-inner"><p id="date" class="color-gray">Posted on '+data[i]['DATE_POSTED']+'</p><p id="description">'+data[i]['DESCRIPTION']+'</p></div> </div> <div class="card-footer"><a href="#" class="link" id="readmore"  onclick="loadNewsStory(\''+data[i]['ID']+'\');">Read More</a></div> </div>');
+					
 
 				} else {
 				
@@ -1261,8 +1498,9 @@ function getNewsFeedReadOnly(){
 					var URI = 'http://athena.ecs.csus.edu/~dteam/susd_newsfeed_images/'+filename;
 				
 				
-					$('#newsfeed').append('<div class="card" > <div class="card-header" id="title"><b>'+data[i]['TITLE']+'</b></div> <div class="card-content"> <div class="card-content-inner" id="content-inner"><p id="date" class="color-gray">Posted on '+data[i]['DATE_POSTED']+'</p><img id="image" src="'+URI+'" style="display: block; width: 100%; height: 50%;"/><p id="description">'+data[i]['DESCRIPTION']+'</p></div> </div> <div class="card-footer"><a href="#" class="link" id="readmore"  onclick="loadNewsStory(\''+data[i]['BODY']+'\',\''+data[i]['TITLE']+'\');">Read More</a></div> </div>');
-				
+					$('#newsfeed').append('<div class="card" > <div class="card-header" id="title"><b>'+data[i]['TITLE']+'</b></div> <div class="card-content"> <div class="card-content-inner" id="content-inner"><p id="date" class="color-gray">Posted on '+data[i]['DATE_POSTED']+'</p><img id="image" src="'+URI+'" style="display: block; width: 100%; height: 50%;"/><p id="description">'+data[i]['DESCRIPTION']+'</p></div> </div> <div class="card-footer"><a href="#" class="link" id="readmore"  onclick="loadNewsStory(\''+data[i]['ID']+'\');">Read More</a></div> </div>');
+					
+
 			
 				}
 				

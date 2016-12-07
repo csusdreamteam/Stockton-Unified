@@ -1,11 +1,13 @@
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.phonegap.helloworld" version="1.0.0">
-  <name>test</name>
+  <name>SUSD</name>
   <description>Hello World sample application that responds to the deviceready event.</description>
   <author href="http://phonegap.com" email="support@phonegap.com">PhoneGap Team</author>
   <content src="index.html"/>
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="android-minSdkVersion" value="14"/>
-  
+  <preference name="StatusBarBackgroundColor" value="#ffffff"/>
+  <preference name="StatusBarStyle" value="default" />
+  <preference name="EnableViewportScale" value="true"/>
   <!--<gap:plugin name="com.ohh2ahh.plugins.appavailability" version="0.3.1" />-->
   
   
@@ -30,7 +32,7 @@
   <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.0"/>
   <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1"/>
   <plugin name="cordova-plugin-themeablebrowser" source="npm" spec="~0.2.17"/>
-  <icon src="icon.png"/>
+  <icon src="susd_logo.png"/>
   <platform name="android">
     <icon src="www/res/icon/android/drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="www/res/icon/android/drawable-mdpi-icon.png" density="mdpi"/>

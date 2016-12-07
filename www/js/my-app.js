@@ -1,13 +1,40 @@
 // EXPORT SELECTORS ENGINE
 var $$ = Dom7;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Initialize your app
 var myApp = new Framework7({
-	tapHold: true,
+	
 	swipePanel: 'right',
 	
 	onPageInit: function (app, page) {
     if (page.name === 'main') {
+			
 			
 			
 			var Admin = 0;
@@ -57,27 +84,49 @@ var myApp = new Framework7({
 			
 			
 			$('#res').on('click',function(){
-
+				
+				
+				myApp.params.swipePanel = 'right';
+				
+				
 				myApp.destroyPullToRefresh(page.container);	//DISABLE 'PULL TO REFRESH' IN RESOURCES PAGE
 
 			});
 			
 			$('#feed').on('click',function(){
 
+				
+				myApp.params.swipePanel = 'right';
+				
+			
 				myApp.initPullToRefresh(page.container);	//ENABLE 'PULL TO REFRESH' IN NEWS FEED
+				
 
 			});
+
+
 			
 			$('#calendar').on('click',function(){
 
 				myApp.destroyPullToRefresh(page.container);	//DISABLE 'PULL TO REFRESH' IN CALENDAR PAGE
+				//var myCalendar = $$('#calendar-inline-container');
+				//myCalendar.close();
+				
+				var swipePanel = myApp.params.swipePanel;
+				if(swipePanel == "right"){
+					myApp.params.swipePanel = false;
+				}
+				
+
+			
+				
 
 			});
 			
 			
 			
 			ptrContent.on('refresh', function (e) {
-				
+				myApp.params.swipePanel = true;
 				setTimeout(function () {
 					
 					window.location.href="main.html";
@@ -85,6 +134,8 @@ var myApp = new Framework7({
 				}, 1000);
 					
 			});
+			
+
 					
 			
 			
@@ -107,6 +158,107 @@ var mainView = myApp.addView('.view-main', {
 	
 	
 });
+
+
+
+
+/*	
+var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
+ 
+var calendarInline = myApp.calendar({
+	container: '#calendar-inline-container',
+	value: [new Date()],
+	firstDay: 0,
+	weekHeader: true,
+	toolbarTemplate: 
+		'<div class="toolbar calendar-custom-toolbar">' +
+			'<div class="toolbar-inner">' +
+				'<div class="left">' +
+					'<a href="#" class="link icon-only"><i class="icon icon-back"></i></a>' +
+				'</div>' +
+				'<div class="center"></div>' +
+				'<div class="right">' +
+					'<a href="#" class="link icon-only"><i class="icon icon-forward"></i></a>' +
+				'</div>' +
+			'</div>' +
+		'</div>',
+		
+		
+	onOpen: function (p) {
+		
+		
+		$$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
+		$$('.calendar-custom-toolbar .left .link').on('click', function () {
+			calendarInline.prevMonth();
+		});
+		$$('.calendar-custom-toolbar .right .link').on('click', function () {
+			calendarInline.nextMonth();
+		});
+		
+	},
+	onMonthYearChangeStart: function (p) {
+		
+		$$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
+		
+	},
+	
+	onDayClick: function(p, dayContainer, year, month, day){
+		
+		alert(year + month + day);
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+});
+
+
+
+
+
+
+
+var today = new Date();
+var weekLater = new Date().setDate(today.getDate() + 7);
+ 
+var calendarEvents = myApp.calendar({
+    input: '#calendar-events',
+    dateFormat: 'M dd yyyy',
+    events: {
+      from: today,
+      to: weekLater
+    }
+});
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function onBackKeyDown() { $$(".back").click(); } 
@@ -133,56 +285,6 @@ $$('.action2').on('click', function () {
 
 
 
-
-myApp.onPageInit('calendar', function (page) {
-    // Default
-
-      var calendarDefault = myApp.calendar({
-          input: '#calendar-default'
-      });
-      // With custom date format
-      var calendarDateFormat = myApp.calendar({
-          input: '#calendar-date-format',
-          dateFormat: 'DD, MM dd, yyyy'
-      });
-      // With multiple values
-      var calendarMultiple = myApp.calendar({
-          input: '#calendar-multiple',
-          dateFormat: 'M dd yyyy',
-          multiple: true
-      });
-      // Inline with custom toolbar
-      var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
-      var calendarInline = myApp.calendar({
-          container: '#calendar-inline-container',
-          value: [new Date()],
-          weekHeader: false,
-          toolbarTemplate: 
-              '<div class="toolbar calendar-custom-toolbar">' +
-                  '<div class="toolbar-inner">' +
-                      '<div class="left">' +
-                          '<a href="#" class="link icon-only"><i class="fa fa-chevron-left"></i></a>' +
-                      '</div>' +
-                      '<div class="center"></div>' +
-                      '<div class="right">' +
-                          '<a href="#" class="link icon-only"><i class="fa fa-chevron-right"></i></a>' +
-                      '</div>' +
-                  '</div>' +
-              '</div>',
-          onOpen: function (p) {
-              $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
-              $$('.calendar-custom-toolbar .left .link').on('click', function () {
-                  calendarInline.prevMonth();
-              });
-              $$('.calendar-custom-toolbar .right .link').on('click', function () {
-                  calendarInline.nextMonth();
-              });
-          },
-          onMonthYearChangeStart: function (p) {
-              $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
-          }
-	});
-});
 
 
 
@@ -860,37 +962,40 @@ function uploadPhoto(imageURI) {
 	options.mimeType="image/jpeg";
 	
 	
-	var params = new Object();
-	params.value1 = "test";
-	params.value2 = "param";
+	//var params = new Object();
+	//params.value1 = "test";
+	//params.value2 = "param";
 
-	options.params = params;
+	//options.params = params;
 	options.chunkedMode = false;
+	
+	
 
+	
 	var ft = new FileTransfer();
+	//alert('uploading');
 	ft.upload(imageURI, "http://athena.ecs.csus.edu/~dteam/upload.php", win, fail, options);
 	
-	return;
-	
+
 }
 	
 	
 function win(r) {
 	//SUCCESSFULLY UPLOADED FILE TO SERVER
-	console.log('success');
+	
 	console.log("Code = " + r.responseCode);
 	console.log("Response = " + r.response);
 	console.log("Sent = " + r.bytesSent);
-	return;
 	
 }
 
 function fail(error) {
 	//FAILED TO UPLOAD FILE TO SERVER
+	
 	console.log("An error has occurred: Code = " + error.code);
 	console.log("upload error source " + error.source);
     console.log("upload error target " + error.target);
-	return;
+	
 	
 }
 
@@ -922,7 +1027,10 @@ myApp.onPageInit('post_news_story', function (page) {
 	
 	$('#camera_roll').on('click',function(){
 		
-			navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+			navigator.camera.getPicture(onSuccess, onFail, { 
+			quality: 50,
+			targetWidth: 640,
+			targetHeight: 480,
 			sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
 			destinationType: Camera.DestinationType.FILE_URI,
 			encodingType: Camera.EncodingType.JPEG
@@ -984,7 +1092,7 @@ myApp.onPageInit('post_news_story', function (page) {
 		
 		
 		var photo = getPhotoSelected();
-	
+		
 		
 		//IF INPUT HAS NO ERRORS
 		if(!input_has_errors && (photo == true)){
@@ -1013,7 +1121,7 @@ myApp.onPageInit('post_news_story', function (page) {
 					
 				} else {
 					// display success message
-					//myApp.alert('Posted!');
+					myApp.alert('Posted!');
 					
 					//mainView.router.loadPage('main.html')
 					setTimeout(function () {
@@ -1057,7 +1165,7 @@ myApp.onPageInit('post_news_story', function (page) {
 					
 				} else {
 					// display success message
-					//myApp.alert('Posted!');
+					myApp.alert('Posted!');
 					
 					mainView.router.loadPage('main.html')
 
