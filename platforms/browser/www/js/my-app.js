@@ -3,25 +3,59 @@ var $$ = Dom7;
 
 
 
+var selectedDate = new Date();
+
+
+var event_dates = [];
 
 
 
+$.when(loadCalendarEvents()).done(function(a1){
+    // the code here will be executed when the ajax request is finished
+	createCalendar();	//create calendar after we have fetched all the calendar events
+	
+	
+});
 
+function loadCalendarEvents() {
+    // NOTE:  This function must return the value 
+    //        from calling the $.ajax() method.
+    return $.ajax({
+		type : 'POST',
+		url  : 'http://athena.ecs.csus.edu/~dteam/get_calendar_event_dates.php',
+		dataType : 'json',
+		encode : true
+	}).done(function (data) {
+		// handle errors
+		if (!data.success) {
+			// YEE
+			alert('error');
+		} else {
+			// display success message
+			var row_count = data.length;
+			
+			
+			for(var i = 0; i < row_count; i++){
+				
+				var event_date = data[i]['EVENT_DATE'];
+				var newdate = new Date(+event_date);
+				
+			
+				event_dates.push(newdate);	//populate our array that holds all our calendar events
+				
+				
+				
+			}
+			
+			
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		}
+	}).fail(function (data) {
+		// for debug 
+		
+		alert('fail');
+	});
+}
 
 
 
@@ -35,6 +69,7 @@ var myApp = new Framework7({
 	onPageInit: function (app, page) {
     if (page.name === 'main') {
 			
+
 			
 			
 			var Admin = 0;
@@ -47,6 +82,7 @@ var myApp = new Framework7({
 			//IF USER IS NOT AN ADMIN THEN LOAD NEWS FEED (READ ONLY)
 			else if(Admin == 1){
 				getNewsFeedWithPrivileges();
+				$('#addEventlistblock').append('<a href="#" id="addEventBtn" class="item-link list-button create-popup">Add Event</a>');
 			}
 				
 
@@ -90,7 +126,8 @@ var myApp = new Framework7({
 				
 				
 				myApp.destroyPullToRefresh(page.container);	//DISABLE 'PULL TO REFRESH' IN RESOURCES PAGE
-
+				
+				
 			});
 			
 			$('#feed').on('click',function(){
@@ -117,9 +154,8 @@ var myApp = new Framework7({
 					myApp.params.swipePanel = false;
 				}
 				
-
-			
 				
+
 
 			});
 			
@@ -135,10 +171,6 @@ var myApp = new Framework7({
 					
 			});
 			
-
-					
-			
-			
 			
 		}
 	}
@@ -148,9 +180,8 @@ var myApp = new Framework7({
 
 
 
-
-
-
+			
+			
 // ADD VIEW
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -162,13 +193,16 @@ var mainView = myApp.addView('.view-main', {
 
 
 
-/*	
+function createCalendar(){
+
 var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
+
  
 var calendarInline = myApp.calendar({
 	container: '#calendar-inline-container',
 	value: [new Date()],
 	firstDay: 0,
+	events: event_dates,
 	weekHeader: true,
 	toolbarTemplate: 
 		'<div class="toolbar calendar-custom-toolbar">' +
@@ -204,59 +238,335 @@ var calendarInline = myApp.calendar({
 	
 	onDayClick: function(p, dayContainer, year, month, day){
 		
-		alert(year + month + day);
-	
+		
+		
+		
+		selectedDate = new Date(year,month,day);
+		//alert(selectedDate);
+		//alert(event_dates);
+		
+		if ($(dayContainer).hasClass('picker-calendar-day-has-events') ) {
+ 
+			
+			eventViewer();
+			
+		}
+		else {
+			
+			clearEventViewer();
+		}
+
+		
 	}
 	
-	
-	
-	
-	
-	
-	
+
 });
 
 
+}
+
+
+
+function clearEventViewer(){
+	
+	$('#event-viewer').empty();	//clear event viewer
+}
+
+var event_title; 
+var event_description;
+var event_start_time;
+
+
+function eventViewer(){
+	
+	clearEventViewer();
+
+
+	
+	$.when(loadCalendarEventData()).done(function(a1){
+    // the code here will be executed when the ajax request is finished
+	// create calendar event block
+	
+		$('#event-viewer').append('<div class="content-block-title">'+
+									'<p>Events on: '+selectedDate+'</p>'+
+								'</div>'+
+									'<div class="card">'+
+									'<br>'+
+								  '<div class="center" style="font-size:150%;color:red;" >'+event_title+'</div>'+
+								  '<div class="card-content">'+
+								  
+									'<div class="card-content-inner">Details: '+event_description+'</div>'+
+								  '</div>'+
+								  '<div class="card-footer" id="footer">'+
+										'<i class="fa fa-calendar" aria-hidden="true">&nbsp;'+selectedDate+'</i>'+
+										'<i class="fa fa-clock-o" aria-hidden="true">&nbsp;'+event_start_time+'</i>'+
+										
+								  '</div>'+
+								  
+								'</div>');
+								
+								
+		if(localStorage.admin == 1){
+			$('#event-viewer').find('#footer').append('<div class="content-block"><a href="#" id="delete-event"  onclick="deleteEvent();" style="color:red;">delete</a></div>');
+		}
+	
+	
+	});
+
+
+	
+}
 
 
 
 
+function deleteEvent(){
+	
+	
+	var text = 'Delete event?';
+	
+	myApp.modal({
+    title:  'Alert',
+	bold: false,
+    text: text,
+    buttons: [
+      {
+        text: 'Cancel',
+        onClick: function() {
+			
+        }
+      },
+	  	  
+      {
+        text: 'OK',
+        bold: false,
+        onClick: function() {
+			
+			
+			var formData = {
+			
+				'date' : selectedDate
+					
+			};
+			
+			
+			$.ajax({
+				type : 'POST',
+				url  : 'http://athena.ecs.csus.edu/~dteam/delete_event.php',
+				data : formData,
+				dataType : 'json',
+				encode : true
+			}).done(function (data) {
+				// handle errors
+				if (!data.success) {
+					alert('error');
+					
+				} else {
+					// display success message
+					myApp.alert('deleted!')
+					window.location.href="main.html";
+					
+				}
+			}).fail(function (data) {
+				// for debug
+				console.log(data);
+			});
+	
+	
+			
+			
+			
+          
+        }
+      },
+    ]
+  });
+	
 
-var today = new Date();
-var weekLater = new Date().setDate(today.getDate() + 7);
- 
-var calendarEvents = myApp.calendar({
-    input: '#calendar-events',
-    dateFormat: 'M dd yyyy',
-    events: {
-      from: today,
-      to: weekLater
-    }
+	
+}
+
+
+
+function loadCalendarEventData(){
+	
+	
+	selectedDate = selectedDate.toISOString().substring(0, 10);
+	
+	
+	var formData = {
+			'date' : selectedDate
+            
+	};
+
+	// process the form
+	return $.ajax({
+		type : 'POST',
+		url  : 'http://athena.ecs.csus.edu/~dteam/get_calendar_event.php',
+		data : formData,
+		dataType : 'json',
+		encode : true
+	}).done(function (data) {
+		// handle errors
+		if (!data.success) {
+			alert('error');
+			
+		} else {
+			// display success message
+			event_title = data['EVENT_NAME'];
+			event_description = data['DESCRIPTION'];
+			event_start_time = data['TIME'];
+			
+			
+		}
+	}).fail(function (data) {
+		// for debug
+		console.log(data);
+	});
+	
+	
+	
+}
+
+
+
+$('#addEventBtn').on('click',function(){
+	
+	
+	selectedDate = selectedDate.toISOString().substring(0, 10);
+	//alert(selectedDate);
+				
 });
 
-*/
+
+						
+							
+
+$$('.create-popup').on('click', function () {
+  var popupHTML = '<div class="popup">'+
+                    '<div class="content-block">'+
+                      '<p><a href="#" class="close-popup" style="color:#ff3b30; font-size: 135%;">Cancel</a></p>'+
+					'</div>'+
+					  '<div class="list-block">'+
+					  '<ul>'+
+						'<li class="item-content">'+
+						  '<div class="item-inner">'+
+							'<div class="item-title"><span>Event Date:&nbsp;&nbsp;&nbsp;&nbsp;'+selectedDate+'</span> </div>'+
+						  '</div>'+
+						'</li>'+
+						'<li class="item-content">'+
+							
+						  '<div class="item-inner">'+
+							'<div class="item-title label">Start Time</div>'+
+							'<div class="item-input">'+
+								'<input type="time" id="time" name="form-event-time" value="time">'+
+							'</div>'+
+						  '</div>'+
+						'</li>'+
+						
+						
+						
+						'<li class="item-content">'+
+							
+						  '<div class="item-inner">'+
+							'<div class="item-title label">Title</div>'+
+							'<div class="item-input">'+
+								'<input type="text" id="title" name="form-event-title" placeholder="Title">'+
+							'</div>'+
+						  '</div>'+
+						'</li>'+
+						'<li class="item-content">'+
+						  '<div class="item-inner">'+
+							'<div class="item-title label">Description</div>'+
+							'<div class="item-input">'+
+								'<input type="text" id="description" name="form-event-description" placeholder="Description">'+
+							'</div>'+
+						  '</div>'+
+						'</li>'+
+					  '</ul>'+
+					'</div>'+
+					'<p class="row">'+
+						'<div class="list-block">'+
+						  '<ul>'+
+							'<li>'+
+							  '<a href="#" onclick = "submitEvent();" id="submit-event-btn" class="item-link list-button">Add Event</a>'+
+							'</li>'+
+						  '</ul>'+
+						'</div>'  +
+					'</p>'+
+                  '</div>'
+					
+				  
+
+				  
+  myApp.popup(popupHTML);
+});    
 
 
+function submitEvent(){
+		
+	
+		var time = $('input[name="form-event-time"]').val();
+		var title = $('input[name="form-event-title"]').val()
+		var input_has_errors = false;
+		
+		
+		
+		
+		//CHECK IF INPUTS ARE EMPTY - IF SO, THEN SHOW ERROR ALERT	
+		if((title==null || title=="") ||(time==null || time=="")){
+			input_has_errors = true;
+			myApp.alert('Start Time and Title are required','Error');
+		}
+		
 
+		
+		//IF INPUT HAS NO ERRORS
+		if(!input_has_errors){
+			
+		
+			var formData = {
+				'title' : $('input[name="form-event-title"]').val(),
+				'description' : $('input[name="form-event-description"]').val(),
+				'event_date' : selectedDate,
+				'time':	$('input[name="form-event-time"]').val()
+			};
+			
+			
+			$.ajax({
+				type : 'POST',
+				url  : 'http://athena.ecs.csus.edu/~dteam/add_calendar_event.php',
+				data : formData,
+				dataType : 'json',
+				encode : true
+			}).done(function (data) {
+				// handle errors
+				if (!data.success) {
+					myApp.alert('An error occurred');
+					
+				} else {
+					// display success message
+					//myApp.alert('Posted!');
+					//myApp.closeModal('.popup');
+					window.location.href="main.html";
+					
+					
+		
+					
+					
+				
+				}
+			}).fail(function (data) {
+				// for debug
+				
+				alert('Server error');
+			});
+		
+		}
+		
+		
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
@@ -280,12 +590,6 @@ $$('.action2').on('click', function () {
   myApp.alert('Action 2');
 }); 
 });
-
-
-
-
-
-
 
 
 
@@ -518,9 +822,6 @@ myApp.onPageInit('login', function (page) {
 
 
 
-
-
-
 var _school_address;
 var _school_website;
 
@@ -570,7 +871,6 @@ function getSchool(){
 
 //SCHOOL DIRECTORY - schoolDirectory.html	
 myApp.onPageInit('schoolDirectory', function(page){
-	
 	
 	
 	
@@ -676,10 +976,6 @@ myApp.onPageInit('schoolDirectory', function(page){
 	
 	
 });
-
-
-
-
 
 
 
@@ -935,10 +1231,6 @@ function checkIfUserIsAdmin(){
 
 
 
-
-
-
-
 function removeImage(){
 	//REMOVED SELECTED IMAGE 
 	var image = document.getElementById('myImage');
@@ -1002,11 +1294,6 @@ function fail(error) {
 
 
 
-
-
-
-
-
 var imgURI;
 var photo_selected = false;
 
@@ -1023,6 +1310,8 @@ function setPhotoSelected(value){
 
 myApp.onPageInit('post_news_story', function (page) {
 	
+	
+
 
 	
 	$('#camera_roll').on('click',function(){
@@ -1298,25 +1587,11 @@ function loadNewsStory(id){
 					  
 		}				
 	
-	
-	
-	
-	
+
 	
 	mainView.router.loadContent(newPageContent);
 		
-		
-		
-	
-	
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		
 	}

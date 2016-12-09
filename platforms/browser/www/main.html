@@ -35,12 +35,12 @@
     <link rel="apple-touch-icon-precomposed" href="icon/icon.png">
 	
 	<link href="css/stylesheets/framework7.min.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	<link href="css/stylesheets/framework7.ios.min.css" media="screen, projection" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
 	<link href="css/stylesheets/template.css" media="screen, projection" rel="stylesheet" type="text/css" />
 	<link href="css/stylesheets/responsive.css" media="screen, projection" rel="stylesheet" type="text/css" />
 	
 	
-
 
 	
 	<script type="text/javascript">
@@ -48,8 +48,10 @@
 			document.getElementById("currentUser").innerHTML="<p style='color:white; font-size: 15px;'>&nbsp;&nbsp;&nbsp;Logged in as:&nbsp;&nbsp;" + localStorage.username +"</h1>";
 			
 
+	
 		
-		}
+		
+
 	</script>
 	
 
@@ -58,7 +60,7 @@
 	
 </head>
 
-<body class="disable-text-selection">
+<body class="disable-text-selection" >
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
     <!-- Panels overlay-->
@@ -124,10 +126,14 @@
 									<div id="arrow" class="pull-to-refresh-arrow"></div>
 								</div>
 									  
-											  
+								
+
+
+
+										
                             <div class="tabs">
 								<!-- CALENDAR -->
-                                <div id="tab1" class="tab" >
+                                <div id="tab1" class="tab">
                                     
                                         <div class="content-block-title"><h3>2016-17 Calendars</h3>
 										
@@ -143,37 +149,36 @@
 										
 										
 										</div>
-										<br>
 										
 										
-										<!--
+										
+										
 										<div class="content-block">
 										  <div style="padding:0; margin-right:-15px; width:auto" class="content-block-inner">
-											<div id="calendar-inline-container">
+											<div class="theme-red" id="calendar-inline-container">
+											
 											</div>
 										  </div>
 										</div>
 
-
-										<div class="content-block-title">ADD EVENT</div>
 										<div class="list-block">
 										  <ul>
-											<li>
-											  <div class="item-content">
-												<div class="item-inner">
-												  <div class="item-input">
-													<input type="text" placeholder="Select date" readonly id="calendar-events" >
-												  </div>
-												</div>
-											  </div>
+											<li id="addEventlistblock">
+											  <!--<a href="#" id="addEventBtn" class="item-link list-button create-popup">Add Event</a>-->
 											</li>
+											
 										  </ul>
 										</div>
-										-->
+											
+									
 										
-
-
-
+										<div class="list-block" id="event-viewer">
+										
+										</div>
+										
+									
+									
+										
 
 
 
